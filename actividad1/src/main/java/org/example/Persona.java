@@ -15,22 +15,6 @@ public class Persona {
         this.saldo = 0;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public String getTipoCuenta() {
-        return tipoCuenta;
-    }
-
-    public int getSaldo() {
-        return saldo;
-    }
-
     public void depositar(int monto) {
         if (monto > 0) this.saldo += monto;
         System.out.println("Dinero depositado: " + monto);

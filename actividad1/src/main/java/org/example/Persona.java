@@ -6,11 +6,36 @@ public class Persona {
     private String tipoCuenta;
     private int saldo;
 
-    public Persona(BuilderPersona builder) {
-        this.nombre = builder.getNombre();
-        this.direccion = builder.getDireccion();
-        this.tipoCuenta = builder.getTipoDeCuenta();
+    private Persona(Builder builder) {
+        this.nombre = builder.nombre;
+        this.direccion = builder.direccion;
+        this.tipoCuenta = builder.tipoCuenta;
         this.saldo = 0;
+    }
+
+    public static class Builder {
+        private String nombre;
+        private String direccion;
+        private String tipoCuenta;
+
+        public Builder setNombre(String nombre) {
+            this.nombre = nombre;
+            return this;
+        }
+        public Builder setDireccion(String direccion) {
+            this.direccion = direccion;
+            return this;
+        }
+        public Builder setTipoDeCuenta(String tipoCuenta) {
+            this.tipoCuenta = tipoCuenta;
+            return this;
+        }
+
+
+        public Persona build(){
+            return new Persona(this);
+        }
+
     }
 
     public void depositar(int monto) {

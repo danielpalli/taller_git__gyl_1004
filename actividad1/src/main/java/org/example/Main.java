@@ -3,22 +3,25 @@ package org.example;
 
 public class Main {
     public static void main(String[] args) {
+        Cuenta cuantaCorriente1 = new Cuenta("Cuenta corriente");
+        Cuenta cuantaCorriente2 = new Cuenta("Cuenta corriente");
 
-        Persona persona1 = new Persona.Builder().setDireccion("Calle falsa 1").setNombre("Agustin").setTipoDeCuenta("Cuenta corriente").build();
-        persona1.depositar(10);
-        persona1.depositar(10);
-        persona1.depositar(10);
-
+        Persona persona1 = new Persona.Builder().setDireccion("Calle falsa 1").setNombre("Agustin").setCuenta(cuantaCorriente1).build();
+        persona1.getCuenta().depositar(10);
+        persona1.getCuenta().depositar(10);
+        persona1.getCuenta().depositar(10);
 
         persona1.mostrarDatosPersona();
 
-
-
-
-        Persona persona2 = new Persona.Builder().setDireccion("Calle 13").setNombre("Martin").setTipoDeCuenta("Cuenta corriente").build();
-        persona1.enviarDinero(persona2, 20);
-
+        Persona persona2 = new Persona.Builder().setDireccion("Calle 13").setNombre("Martin").setCuenta(cuantaCorriente2).build();
+        persona2.getCuenta().depositar(2);
+        System.out.println("------------------------------");
         persona2.mostrarDatosPersona();
         persona1.mostrarDatosPersona();
+        System.out.println("------------------------------");
+        persona1.getCuenta().enviarDinero(persona2.getCuenta(), 22);
+        System.out.println("------------------------------");
+        persona1.mostrarDatosPersona();
+        persona2.mostrarDatosPersona();
     }
 }

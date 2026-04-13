@@ -1,17 +1,35 @@
 package org.example;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Persona persona1 = new Persona("Agustin", "Calle falsa 1", "Caja de ahorro");
+        persona1.depositar(10);
+        persona1.depositar(10);
+        persona1.depositar(10);
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        System.out.println("------------------------------");
+        persona1.mostrarDatosPersona();
+        System.out.println("------------------------------");
+
+        Persona persona2 = new Persona("Martin", "Calle 13", "Cuenta corriente");
+        persona2.depositar(22);
+        persona2.depositar(22);
+        persona2.depositar(2);
+        System.out.println("------------------------------");
+        persona2.mostrarDatosPersona();
+
+        System.out.println("------------------------------");
+
+        persona1.enviarDinero(persona2, 10);
+
+        System.out.println("------------------------------");
+        persona1.mostrarDatosPersona();
+
+        System.out.println("------------------------------");
+
+        persona2.mostrarDatosPersona();
+
+        System.out.println("------------------------------");
     }
 }

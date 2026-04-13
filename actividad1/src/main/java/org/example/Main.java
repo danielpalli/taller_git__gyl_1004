@@ -3,6 +3,9 @@ package org.example;
 
 public class Main {
     public static void main(String[] args) {
+
+        Banco banco1 = new Banco();
+        Banco banco2 = new Banco();
         Cuenta cuantaCorriente1 = new Cuenta("Cuenta corriente");
         Cuenta cuantaCorriente2 = new Cuenta("Cuenta corriente");
 
@@ -17,11 +20,19 @@ public class Main {
         persona2.getCuenta().depositar(2);
         System.out.println("------------------------------");
         persona2.mostrarDatosPersona();
-        persona1.mostrarDatosPersona();
         System.out.println("------------------------------");
         persona1.getCuenta().enviarDinero(persona2.getCuenta(), 22);
+
         System.out.println("------------------------------");
-        persona1.mostrarDatosPersona();
-        persona2.mostrarDatosPersona();
+        System.out.println("------------------------------");
+        System.out.println("------------------------------");
+
+        banco1.agregarPersona(persona1);
+        banco1.agregarPersona(persona2);
+
+        banco1.mostrarPersonas();
+        System.out.println("------------------------------");
+
+        banco2.mostrarPersonas();
     }
 }

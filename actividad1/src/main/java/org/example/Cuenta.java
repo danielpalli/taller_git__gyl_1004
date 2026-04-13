@@ -11,15 +11,14 @@ public class Cuenta {
 
     public void depositar(int monto) {
         if (monto > 0) this.saldo += monto;
-        System.out.println("Dinero depositado: " + monto);
-        System.out.println("Saldo actual: " + this.saldo);
     }
+
 
     public void enviarDinero(Cuenta destino, int monto) {
         if (monto > 0 && this.saldo >= monto) {
             saldo -= monto;
             destino.depositar(monto);
-            System.out.println("Dinero enviado correctamente.");
+            System.out.println("Dinero enviado correctamente. Por un monto de: " + monto);
             return;
         }
         System.out.println("No se puedo enviar el dinero, verifique bien los datos");

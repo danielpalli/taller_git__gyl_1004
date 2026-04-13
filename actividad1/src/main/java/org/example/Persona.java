@@ -6,12 +6,10 @@ public class Persona {
     private String tipoCuenta;
     private int saldo;
 
-
-
-    public Persona(String nombre, String direccion, String tipoCuenta) {
-        this.nombre = nombre;
-        this.direccion = direccion;
-        this.tipoCuenta = tipoCuenta;
+    public Persona(BuilderPersona builder) {
+        this.nombre = builder.getNombre();
+        this.direccion = builder.getDireccion();
+        this.tipoCuenta = builder.getTipoDeCuenta();
         this.saldo = 0;
     }
 
@@ -39,3 +37,4 @@ public class Persona {
         System.out.println("saldo: " + this.saldo);
     }
 }
+

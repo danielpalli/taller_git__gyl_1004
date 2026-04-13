@@ -1,22 +1,28 @@
 package org.example;
 
-import java.util.ArrayList;
 
 public class Banco {
-    private ArrayList<Persona> personas = new ArrayList<>();
+    private Persona[] personas;
+    private int contador;
+    public Banco(){
+        this.personas = new Persona[0];
+        this.contador= 0;
+    }
 
     public void agregarPersona(Persona persona) {
-        personas.add(persona);
+        Persona[] nuevaPersona = new Persona[this.personas.length + 1];
+        for(int i = 0; i < this.personas.length; i++) {
+            nuevaPersona[i] = this.personas[i];
+        }
+        nuevaPersona[contador] = persona;
+
+        this.personas = nuevaPersona;
+        this.contador++;
     }
 
     public void mostrarPersonas() {
-        if(this.personas.isEmpty()) {
-            System.out.println("El banco no cuenta con clientes");
-            return;
-        };
-
-        for(Persona persona: this.personas) {
-            persona.mostrarDatosPersona();
+        for(int i = 0; i < this.contador; i++) {
+            this.personas[i].mostrarDatosPersona();
         }
     }
 }

@@ -1,10 +1,7 @@
 package org.example;
 
-import org.example.enums.TipoCuenta;
-import org.example.model.Banco;
-import org.example.model.Cuenta;
-import org.example.model.Persona;
-import org.example.model.Sucursal;
+import org.example.command.*;
+import org.example.model.*;
 
 import java.util.Scanner;
 
@@ -12,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-        Banco banco = new Banco();
+        Banco banco = new Banco("Prueba");
 
         Persona persona = null;
         String opcion;
@@ -43,6 +40,8 @@ public class Main {
             return;
         }
 
+        Command mostrarSucursalesCommand = new MostrarSucursalesCommand(banco);
+        Command crearUsuarioCommand = new CrearUsuarioCommand(sc);
         do {
             System.out.println("1. Crear persona");
             System.out.println("0. Continuar");
@@ -50,10 +49,10 @@ public class Main {
             opcion = sc.nextLine();
 
             if (opcion.equals("1")) {
-                persona = crearPersona(sc);
+                persona = crearUsuarioCommand.execute();
 
                 System.out.println("Sucursales disponibles:");
-                mostrarSucursales(banco);
+                mostrarSucursalesCommand.execute();
 
                 System.out.print("Elegir sucursal: ");
                 String nombreSucursal = sc.nextLine();
@@ -76,6 +75,13 @@ public class Main {
             return;
         }
 
+        Command depositarCommand = new DepositarCommand(persona, sc);
+        Command retirarCommand = new RetirarCommand(persona, sc);
+        Command transferirCommand = new TransferirCommand(persona, banco, sc);
+        Command cambiarSucursalCommand = new CambiarSucursalCommand();
+        Command mostrarBalanceCommand = new MostrarBalanceCommand(banco);
+
+
         do {
             System.out.println("1. Depositar");
             System.out.println("2. Retirar");
@@ -91,31 +97,33 @@ public class Main {
             switch (opcion) {
 
                 case "1":
-                    depositar(sc, persona);
+                    depositarCommand.execute();
                     break;
 
                 case "2":
-                    retirar(sc, persona);
+                    retirarCommand.execute();
                     break;
 
                 case "3":
-                    transferir(sc, persona, banco);
+                    transferirCommand.execute();
                     break;
 
                 case "4":
-                    cambiarSucursal(sc, persona, banco);
+                    // TODO falta implementacion
+                    cambiarSucursalCommand.execute();
                     break;
 
                 case "5":
+                    // TODO implementar command
                     System.out.println("Saldo: " + persona.getCuenta().getSaldo());
                     break;
 
                 case "6":
-                    mostrarSucursales(banco);
+                    mostrarSucursalesCommand.execute();
                     break;
 
                 case "7":
-                    mostrarBalance(banco);
+                    mostrarBalanceCommand.execute();
                     break;
 
                 case "0":
@@ -129,117 +137,5 @@ public class Main {
         } while (!opcion.equals("0"));
 
         sc.close();
-    }
-
-    public static Persona crearPersona(Scanner sc) {
-
-        System.out.print("Nombre: ");
-        String nombre = sc.nextLine();
-
-        System.out.print("Direccion: ");
-        String direccion = sc.nextLine();
-
-        System.out.print("Correo: ");
-        String correo = sc.nextLine();
-
-        System.out.print("Tipo cuenta (1: Caja Ahorro, 2: Corriente): ");
-        String tipoInput = sc.nextLine();
-
-        TipoCuenta tipo = tipoInput.equals("1") ?
-            TipoCuenta.CAJA_AHORRO :
-            TipoCuenta.CUENTA_CORRIENTE;
-
-        Cuenta cuenta = new Cuenta(tipo);
-
-        return new Persona.Builder()
-            .setNombre(nombre)
-            .setDireccion(direccion)
-            .setCorreo(correo)
-            .setCuenta(cuenta)
-            .build();
-    }
-
-    public static void depositar(Scanner sc, Persona persona) {
-        System.out.print("Monto: ");
-        int monto = Integer.parseInt(sc.nextLine());
-        persona.getCuenta().depositar(monto);
-    }
-
-    public static void retirar(Scanner sc, Persona persona) {
-        System.out.print("Monto: ");
-        int monto = Integer.parseInt(sc.nextLine());
-        persona.getCuenta().retirar(monto);
-    }
-
-    public static void transferir(Scanner sc, Persona origen, Banco banco) {
-
-        System.out.println("Sucursales disponibles:");
-        mostrarSucursales(banco);
-
-        System.out.print("Sucursal destino: ");
-        String nombreSucursal = sc.nextLine();
-
-        Sucursal sucursal = banco.buscarSucursal(nombreSucursal);
-
-        if (sucursal == null) {
-            System.out.println("Sucursal no existe");
-            return;
-        }
-
-        System.out.print("Nombre destinatario: ");
-        String nombre = sc.nextLine();
-
-        Persona destino = sucursal.buscarPersona(nombre);
-
-        if (destino == null) {
-            System.out.println("No existe persona");
-            return;
-        }
-
-        System.out.print("Monto: ");
-        int monto = Integer.parseInt(sc.nextLine());
-
-        origen.getCuenta().enviarDinero(destino.getCuenta(), monto);
-    }
-
-    public static void cambiarSucursal(Scanner sc, Persona persona, Banco banco) {
-
-        System.out.println("Sucursales disponibles:");
-        mostrarSucursales(banco);
-
-        System.out.print("Sucursal destino: ");
-        String nombreSucursal = sc.nextLine();
-
-        Sucursal nuevaSucursal = banco.buscarSucursal(nombreSucursal);
-
-        if (nuevaSucursal == null) {
-            System.out.println("Sucursal no existe");
-            return;
-        }
-
-        for (Sucursal sucursal : banco.getSucursales()) {
-            if (sucursal.getPersonas().contains(persona)) {
-                sucursal.getPersonas().remove(persona);
-                nuevaSucursal.agregarPersona(persona);
-                System.out.println("Cambio exitoso");
-                return;
-            }
-        }
-    }
-
-    public static void mostrarSucursales(Banco banco) {
-        for (Sucursal sucursal : banco.getSucursales()) {
-            System.out.println(sucursal.getNombre());
-        }
-    }
-
-    public static void mostrarBalance(Banco banco) {
-        for (Sucursal sucursal : banco.getSucursales()) {
-            System.out.println("Sucursal: " + sucursal.getNombre());
-
-            for (Persona persona : sucursal.getPersonas()) {
-                persona.mostrarDatosPersona();
-            }
-        }
     }
 }

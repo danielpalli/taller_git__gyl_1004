@@ -5,7 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Banco {
+    private String nombre;
     private List<Sucursal> sucursales = new ArrayList<>();
+
+    public Banco(String nombre) {
+        this.nombre = nombre;
+    }
 
     public void agregarSucursal(Sucursal sucursal) {
         sucursales.add(sucursal);

@@ -1,10 +1,12 @@
-package org.example;
+package org.example.model;
+
+import org.example.enums.TipoCuenta;
 
 public class Cuenta {
-    private String tipo;
+    private TipoCuenta tipo;
     private int saldo;
 
-    public Cuenta(String tipo) {
+    public Cuenta(TipoCuenta tipo) {
         this.tipo = tipo;
         this.saldo = 0;
     }
@@ -13,6 +15,13 @@ public class Cuenta {
         if (monto > 0) this.saldo += monto;
     }
 
+    public void retirar(int monto) {
+        if (monto <= 0) return;
+
+        if (monto <= this.saldo) {
+            this.saldo -= monto;
+        }
+    }
 
     public void enviarDinero(Cuenta destino, int monto) {
         if (monto > 0 && this.saldo >= monto) {
@@ -25,9 +34,9 @@ public class Cuenta {
     }
 
     public int getSaldo() {
-        return saldo;
+        return this.saldo;
     }
-    public String getTipo(){
-        return tipo;
+    public TipoCuenta  getTipo(){
+        return this.tipo;
     }
 }

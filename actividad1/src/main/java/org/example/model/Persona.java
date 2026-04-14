@@ -1,29 +1,39 @@
-package org.example;
+package org.example.model;
 
 public class Persona {
     private String nombre;
     private String direccion;
+    private String correo;
     private Cuenta cuenta;
 
     private Persona(Builder builder) {
         this.nombre = builder.nombre;
         this.direccion = builder.direccion;
+        this.correo = builder.correo;
         this.cuenta = builder.cuenta;
     }
 
     public static class Builder {
         private String nombre;
         private String direccion;
+        private String correo;
         private Cuenta cuenta;
 
         public Builder setNombre(String nombre) {
             this.nombre = nombre;
             return this;
         }
+
         public Builder setDireccion(String direccion) {
             this.direccion = direccion;
             return this;
         }
+
+        public Builder setCorreo(String correo) {
+            this.correo = correo;
+            return this;
+        }
+
         public Builder setCuenta(Cuenta cuenta) {
             this.cuenta = cuenta;
             return this;
@@ -38,9 +48,13 @@ public class Persona {
         System.out.println("nombre: " + this.nombre);
         System.out.println("direccion: " + this.direccion);
         System.out.println("tipoCuenta: " + this.cuenta.getTipo());
+        System.out.println("correo: " + this.correo);
         System.out.println("saldo: " + this.cuenta.getSaldo());
     }
 
+    public String getNombre(){
+        return this.nombre;
+    }
     public Cuenta getCuenta(){
         return this.cuenta;
     }

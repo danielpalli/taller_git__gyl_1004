@@ -1,14 +1,15 @@
-package org.example.command;
+package org.example.command.usuario;
 
+import org.example.command.Command;
 import org.example.model.Persona;
 
 import java.util.Scanner;
 
-public class RetirarCommand implements Command {
+public class DepositarCommand implements Command {
     Persona persona;
     Scanner sc;
 
-    public RetirarCommand(Persona persona, Scanner sc){
+    public DepositarCommand(Persona persona, Scanner sc) {
         this.persona = persona;
         this.sc = sc;
     }
@@ -17,7 +18,8 @@ public class RetirarCommand implements Command {
     public Persona execute() {
         System.out.print("Monto: ");
         int monto = Integer.parseInt(sc.nextLine());
-        persona.getCuenta().retirar(monto);
+        persona.getCuenta().depositar(monto);
+
         return null;
     }
 }

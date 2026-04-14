@@ -1,6 +1,13 @@
 package org.example;
 
 import org.example.command.*;
+import org.example.command.administrativo.MostrarBalanceCommand;
+import org.example.command.administrativo.MostrarSucursalesCommand;
+import org.example.command.autenticacion.CrearUsuarioCommand;
+import org.example.command.usuario.CambiarSucursalCommand;
+import org.example.command.usuario.DepositarCommand;
+import org.example.command.usuario.RetirarCommand;
+import org.example.command.usuario.TransferirCommand;
 import org.example.model.*;
 
 import java.util.Scanner;
@@ -13,6 +20,20 @@ public class Main {
 
         Persona persona = null;
         String opcion;
+
+        do {
+            System.out.println("1. Crear Banco");
+            System.out.println("0. Continuar");
+
+            opcion = sc.nextLine();
+
+            if (opcion.equals("1")) {
+                System.out.print("Nombre banco: ");
+                String nombre = sc.nextLine();
+                banco = new Banco(nombre);
+            }
+
+        } while (!opcion.equals("0"));
 
         do {
             System.out.println("1. Crear sucursal");
@@ -42,6 +63,7 @@ public class Main {
 
         Command mostrarSucursalesCommand = new MostrarSucursalesCommand(banco);
         Command crearUsuarioCommand = new CrearUsuarioCommand(sc);
+
         do {
             System.out.println("1. Crear persona");
             System.out.println("0. Continuar");

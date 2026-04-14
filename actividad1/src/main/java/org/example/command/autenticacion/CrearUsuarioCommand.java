@@ -1,5 +1,6 @@
-package org.example.command;
+package org.example.command.autenticacion;
 
+import org.example.command.Command;
 import org.example.enums.TipoCuenta;
 import org.example.model.Cuenta;
 import org.example.model.Persona;

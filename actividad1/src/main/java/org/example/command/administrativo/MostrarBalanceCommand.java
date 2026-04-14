@@ -1,5 +1,6 @@
-package org.example.command;
+package org.example.command.administrativo;
 
+import org.example.command.Command;
 import org.example.model.Banco;
 import org.example.model.Persona;
 import org.example.model.Sucursal;

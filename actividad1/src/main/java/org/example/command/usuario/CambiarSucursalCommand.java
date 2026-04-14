@@ -1,5 +1,6 @@
-package org.example.command;
+package org.example.command.usuario;
 
+import org.example.command.Command;
 import org.example.model.Persona;
 
 public class CambiarSucursalCommand implements Command {

@@ -13,11 +13,11 @@ public class Banco {
     }
 
     public void agregarSucursal(Sucursal sucursal) {
-        sucursales.add(sucursal);
+        this.sucursales.add(sucursal);
     }
 
     public Sucursal buscarSucursal(String nombre) {
-        for (Sucursal sucursal : sucursales) {
+        for (Sucursal sucursal : this.sucursales) {
             if (sucursal.getNombre().equalsIgnoreCase(nombre)) {
                 return sucursal;
             }
@@ -26,6 +26,6 @@ public class Banco {
     }
 
     public List<Sucursal> getSucursales() {
-        return sucursales;
+        return this.sucursales;
     }
 }

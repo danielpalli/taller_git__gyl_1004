@@ -3,23 +3,17 @@ package org.example.command.usuario;
 import org.example.command.Command;
 import org.example.model.Persona;
 
-import java.util.Scanner;
-
 public class DepositarCommand implements Command {
-    Persona persona;
-    Scanner sc;
+    private Persona persona;
+    private int monto;
 
-    public DepositarCommand(Persona persona, Scanner sc) {
+    public DepositarCommand(Persona persona, int monto) {
         this.persona = persona;
-        this.sc = sc;
+        this.monto = monto;
     }
 
     @Override
-    public Persona execute() {
-        System.out.print("Monto: ");
-        int monto = Integer.parseInt(sc.nextLine());
+    public void execute() {
         persona.getCuenta().depositar(monto);
-
-        return null;
     }
 }

@@ -1,16 +1,23 @@
 package org.example.model;
 
+import org.example.enums.Rol;
+
 public class Persona {
     private String nombre;
     private String direccion;
     private String correo;
     private Cuenta cuenta;
+    private String password;
+    private Rol rol;
+
 
     private Persona(Builder builder) {
         this.nombre = builder.nombre;
         this.direccion = builder.direccion;
         this.correo = builder.correo;
         this.cuenta = builder.cuenta;
+        this.password = builder.password;
+        this.rol = builder.rol;
     }
 
     public static class Builder {
@@ -18,6 +25,8 @@ public class Persona {
         private String direccion;
         private String correo;
         private Cuenta cuenta;
+        private String password;
+        private Rol rol = Rol.USUARIO;
 
         public Builder setNombre(String nombre) {
             this.nombre = nombre;
@@ -39,7 +48,17 @@ public class Persona {
             return this;
         }
 
-        public Persona build(){
+        public Builder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder setRol(Rol rol) {
+            this.rol = rol;
+            return this;
+        }
+
+        public Persona build() {
             return new Persona(this);
         }
     }
@@ -49,14 +68,28 @@ public class Persona {
         System.out.println("direccion: " + this.direccion);
         System.out.println("tipoCuenta: " + this.cuenta.getTipo());
         System.out.println("correo: " + this.correo);
+        System.out.println("password: " + this.getPassword());
+        System.out.println("rol: " + this.getRol());
         System.out.println("saldo: " + this.cuenta.getSaldo());
     }
 
-    public String getNombre(){
+    public String getNombre() {
         return this.nombre;
     }
-    public Cuenta getCuenta(){
+
+    public Cuenta getCuenta() {
         return this.cuenta;
     }
-}
 
+    public String getCorreo() {
+        return this.correo;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public Rol getRol() {
+        return this.rol;
+    }
+}

@@ -13,7 +13,7 @@ public class MostrarBalanceCommand implements Command {
     }
 
     @Override
-    public Persona execute() {
+    public void execute() {
         for (Sucursal sucursal : this.banco.getSucursales()) {
             System.out.println("Sucursal: " + sucursal.getNombre());
 
@@ -21,6 +21,5 @@ public class MostrarBalanceCommand implements Command {
                 persona.mostrarDatosPersona();
             }
         }
-        return null;
     }
 }

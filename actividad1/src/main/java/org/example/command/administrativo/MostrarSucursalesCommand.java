@@ -2,7 +2,6 @@ package org.example.command.administrativo;
 
 import org.example.command.Command;
 import org.example.model.Banco;
-import org.example.model.Persona;
 import org.example.model.Sucursal;
 
 public class MostrarSucursalesCommand implements Command {
@@ -13,10 +12,9 @@ public class MostrarSucursalesCommand implements Command {
     }
 
     @Override
-    public Persona execute() {
+    public void execute() {
         for (Sucursal sucursal : this.banco.getSucursales()) {
             System.out.println(sucursal.getNombre());
         }
-        return null;
     }
 }

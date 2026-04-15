@@ -1,49 +1,23 @@
 package org.example.command.usuario;
 
 import org.example.command.Command;
-import org.example.model.Banco;
 import org.example.model.Persona;
-import org.example.model.Sucursal;
-
-import java.util.Scanner;
 
 public class TransferirCommand implements Command {
-    Persona persona;
-    Scanner sc;
-    Banco banco;
+    private Persona origen;
+    private Persona destino;
+    private int monto;
 
-    public TransferirCommand(Persona persona, Banco banco, Scanner sc) {
-        this.persona = persona;
-        this.banco = banco;
-        this.sc = sc;
+    public TransferirCommand(Persona origen, Persona destino, int monto) {
+        this.origen = origen;
+        this.destino = destino;
+        this.monto = monto;
     }
 
     @Override
-    public Persona execute() {
-        System.out.print("Sucursal destino: ");
-        String nombreSucursal = sc.nextLine();
-
-        Sucursal sucursal = this.banco.buscarSucursal(nombreSucursal);
-
-        if (sucursal == null) {
-            System.out.println("Sucursal no existe");
-            return null;
+    public void execute() {
+        if (destino != null) {
+            this.origen.getCuenta().enviarDinero(destino.getCuenta(), monto);
         }
-
-        System.out.print("Nombre destinatario: ");
-        String nombre = sc.nextLine();
-
-        Persona destino = sucursal.buscarPersona(nombre);
-
-        if (destino == null) {
-            System.out.println("No existe persona");
-            return destino;
-        }
-
-        System.out.print("Monto: ");
-        int monto = Integer.parseInt(sc.nextLine());
-
-        this.persona.getCuenta().enviarDinero(destino.getCuenta(), monto);
-        return destino;
     }
 }

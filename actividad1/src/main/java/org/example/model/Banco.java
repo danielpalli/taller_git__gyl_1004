@@ -1,12 +1,27 @@
 package org.example.model;
 
 
+import org.example.enums.Rol;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Banco {
     private String nombre;
+    private Persona ceo;
     private List<Sucursal> sucursales = new ArrayList<>();
+
+    public void setCeo(Persona ceo) {
+        if (ceo.getRol() == Rol.CEO) {
+            this.ceo = ceo;
+        } else {
+            System.out.println("Error: La persona debe tener el rol de CEO");
+        }
+    }
+
+    public Persona getCeo() {
+        return this.ceo;
+    }
 
     public Banco(String nombre) {
         this.nombre = nombre;

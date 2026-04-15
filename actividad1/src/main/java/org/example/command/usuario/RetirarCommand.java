@@ -3,22 +3,17 @@ package org.example.command.usuario;
 import org.example.command.Command;
 import org.example.model.Persona;
 
-import java.util.Scanner;
-
 public class RetirarCommand implements Command {
-    Persona persona;
-    Scanner sc;
+    private Persona persona;
+    private int monto;
 
-    public RetirarCommand(Persona persona, Scanner sc){
+    public RetirarCommand(Persona persona, int monto) {
         this.persona = persona;
-        this.sc = sc;
+        this.monto = monto;
     }
 
     @Override
-    public Persona execute() {
-        System.out.print("Monto: ");
-        int monto = Integer.parseInt(sc.nextLine());
+    public void execute() {
         persona.getCuenta().retirar(monto);
-        return null;
     }
 }

@@ -27,64 +27,16 @@ public class Main {
             .build();
 
         ceo.mostrarDatosPersona();
+
         Banco banco = new Banco("Prueba");
         banco.setCeo(ceo);
         System.out.println("El CEO del banco es: " + banco.getCeo().getNombre());
+
         List<Persona> personasRegistradas = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
         personasRegistradas.add(ceo);
-        Persona personaLogueada = null;
-        String opcion;
-        do {
-            System.out.println("1. Registrarse");
-            System.out.println("2. Iniciar sesion");
-            System.out.println("0. Salir");
-            opcion = sc.nextLine();
 
-            if (opcion.equals("1")) {
-                System.out.print("Nombre: ");
-                String nombre = sc.nextLine();
-                System.out.print("Correo: ");
-                String correo = sc.nextLine();
-                System.out.print("Password: ");
-                String password = sc.nextLine();
-                System.out.print("Direccion: ");
-                String direccion = sc.nextLine();
-                System.out.println("Seleccione tipo de cuenta:");
-                System.out.println("1. Caja de Ahorro");
-                System.out.println("2. Cuenta Corriente");
-                String tipoCuenta = sc.nextLine();
-
-                TipoCuenta tipo = tipoCuenta.equals("1") ?
-                    TipoCuenta.CUENTA_CORRIENTE : TipoCuenta.CAJA_AHORRO;
-
-                Cuenta nuevaCuenta = new Cuenta(tipo);
-
-                Persona nuevoUsuario = new Persona.Builder()
-                    .setNombre(nombre)
-                    .setCorreo(correo)
-                    .setDireccion(direccion)
-                    .setPassword(password)
-                    .setRol(Rol.USUARIO)
-                    .setCuenta(nuevaCuenta)
-                    .build();
-                personasRegistradas.add(nuevoUsuario);
-                System.out.println("Usuario registrado con exito.");
-            }
-
-            if (opcion.equals("2")) {
-                System.out.print("Correo: "); String cor = sc.nextLine();
-                System.out.print("Password: "); String pass = sc.nextLine();
-
-                for (Persona p : personasRegistradas) {
-                    if (p.getCorreo().equals(cor) && p.getPassword().equals(pass)) {
-                        personaLogueada = p;
-                        break;
-                    }
-                }
-                if (personaLogueada == null) System.out.println("Credenciales incorrectas.");
-            }
-        } while (personaLogueada == null && !opcion.equals("0"));
+        Persona personaLogueada = iniciarSecion(sc, personasRegistradas);
 
         if (personaLogueada == null) return;
 
@@ -97,6 +49,68 @@ public class Main {
         }
 
         sc.close();
+    }
+
+    private static Persona iniciarSecion(Scanner sc, List<Persona> personas) {
+        Persona personaLogueada = null;
+        String opcion;
+        do {
+            System.out.println("1. Registrarse");
+            System.out.println("2. Iniciar sesion");
+            System.out.println("0. Salir");
+            opcion = sc.nextLine();
+
+            if (opcion.equals("1")) {
+                registrarNuevoUsuario(sc, personas);
+            }
+
+            if (opcion.equals("2")) {
+                System.out.print("Correo: "); String cor = sc.nextLine();
+                System.out.print("Password: "); String pass = sc.nextLine();
+
+                for (Persona p : personas) {
+                    if (p.getCorreo().equals(cor) && p.getPassword().equals(pass)) {
+                        personaLogueada = p;
+                        break;
+                    }
+                }
+                if (personaLogueada == null) System.out.println("Credenciales incorrectas.");
+            }
+        } while (personaLogueada == null && !opcion.equals("0"));
+
+        return personaLogueada;
+    }
+
+    private static void registrarNuevoUsuario (Scanner sc, List<Persona> personas) {
+        System.out.print("Nombre: ");
+        String nombre = sc.nextLine();
+        System.out.print("Correo: ");
+        String correo = sc.nextLine();
+        System.out.print("Password: ");
+        String password = sc.nextLine();
+        System.out.print("Direccion: ");
+        String direccion = sc.nextLine();
+        System.out.println("Seleccione tipo de cuenta:");
+        System.out.println("1. Caja de Ahorro");
+        System.out.println("2. Cuenta Corriente");
+        String tipoCuenta = sc.nextLine();
+
+        TipoCuenta tipo = tipoCuenta.equals("1") ?
+                TipoCuenta.CUENTA_CORRIENTE : TipoCuenta.CAJA_AHORRO;
+
+        Cuenta nuevaCuenta = new Cuenta(tipo);
+
+        Persona nuevoUsuario = new Persona.Builder()
+                .setNombre(nombre)
+                .setCorreo(correo)
+                .setDireccion(direccion)
+                .setPassword(password)
+                .setRol(Rol.USUARIO)
+                .setCuenta(nuevaCuenta)
+                .build();
+
+        personas.add(nuevoUsuario);
+        System.out.println("Usuario registrado");
     }
 
     private static void menuCeo(Scanner sc, Banco banco) {

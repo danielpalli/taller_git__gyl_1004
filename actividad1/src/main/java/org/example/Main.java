@@ -43,7 +43,7 @@ public class Main {
         System.out.println("Conectado: " + personaLogueada.getNombre());
 
         if (personaLogueada.getRol() == Rol.CEO) {
-            menuCeo(sc, banco);
+            menuCeo(sc, banco, personasRegistradas);
         } else {
             menuUsuario(sc, personaLogueada, banco);
         }
@@ -113,7 +113,7 @@ public class Main {
         System.out.println("Usuario registrado");
     }
 
-    private static void menuCeo(Scanner sc, Banco banco) {
+    private static void menuCeo(Scanner sc, Banco banco, List<Persona> personasRegistradas) {
         String opcion;
         Command mostrarSucursales = new MostrarSucursalesCommand(banco);
         Command mostrarBalance = new MostrarBalanceCommand(banco);
@@ -122,6 +122,10 @@ public class Main {
             System.out.println("1. Crear nueva sucursal");
             System.out.println("2. Ver todas las sucursales");
             System.out.println("3. Ver balance general");
+            System.out.println("4. Ver usuarios registrados");
+            System.out.println("5. Agregar usuario a sucursal");
+            System.out.println("6. Ver usuarios de susucarl");
+
             System.out.println("0. Salir");
             opcion = sc.nextLine();
 
@@ -138,6 +142,43 @@ public class Main {
                 case "3":
                     mostrarBalance.execute();
                     break;
+                case "4":
+                    for(Persona persona: personasRegistradas) {
+                        System.out.println(persona.getNombre());
+                    }
+                case "5":
+                    System.out.println("Nombre de la sucursal: ");
+                    Sucursal sucursal = banco.buscarSucursal(sc.nextLine());
+                    if (sucursal == null){
+                        // TODO poner mensaje
+                        break;
+                    }
+                    System.out.println("Correo del usuario a agregar:");
+                    String correo = sc.nextLine();
+                    Persona encontrado = null;
+                    for (Persona persona: personasRegistradas) {
+                        if(persona.getCorreo().equalsIgnoreCase(correo)){
+                            encontrado = persona;
+                            break;
+                        }
+                    }
+                    if (encontrado == null ) {
+                    } else {
+                        sucursal.agregarPersona(encontrado);
+                        System.out.println("Agregado");
+                        break;
+                    }
+                case "6":
+                    System.out.println("Nombre de la sucursal: ");
+                    Sucursal sucursalVer = banco.buscarSucursal(sc.nextLine());
+
+                    if (sucursalVer == null){
+                    } else if(sucursalVer.getPersonas().isEmpty()) {
+                    } else {
+                        for (Persona persona: sucursalVer.getPersonas()) {
+                            System.out.println(persona.getNombre());
+                        }
+                    }
             }
         } while (!opcion.equals("0"));
     }

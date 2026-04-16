@@ -11,7 +11,7 @@ public class MenuFactory {
             case CEO:
                 return new MenuCeo(banco, personasRegistradas);
             case USUARIO:
-                return new MenuUsuario();
+                return new MenuUsuario(persona, banco);
             default:
                 System.out.println("Rol no existente");
         }

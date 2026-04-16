@@ -44,12 +44,6 @@ public class Main {
         if (personaLogueada == null) return;
 
         System.out.println("Conectado: " + personaLogueada.getNombre());
-//        if (personaLogueada.getRol() == Rol.CEO) {
-//
-//            menuCeo(sc, banco, personasRegistradas);
-//        } else {
-//            menuUsuario(sc, personaLogueada, banco);
-//        }
 
         MenuStrategy menu = MenuFactory.crearMenu(personaLogueada, banco, personasRegistradas);
         String opcion;

@@ -92,4 +92,8 @@ public class Persona {
     public Rol getRol() {
         return this.rol;
     }
+
+    public void setRol(Rol rol){
+        this.rol = rol;
+    }
 }

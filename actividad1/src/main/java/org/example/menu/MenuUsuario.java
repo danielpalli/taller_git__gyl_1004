@@ -49,7 +49,7 @@ public class MenuUsuario implements MenuStrategy{
                 String nombreDestinatario = sc.nextLine();
                 System.out.println("Monto a transferir: ");
                 int monto = Integer.parseInt(sc.nextLine());
-                new TransferirCommand(persona, banco, nombreSucursal, nombreDestinatario, monto);
+                new TransferirCommand(persona, banco, nombreSucursal, nombreDestinatario, monto).execute();
                 break;
             case "4":
                 new VerSaldoCommand(persona).execute();

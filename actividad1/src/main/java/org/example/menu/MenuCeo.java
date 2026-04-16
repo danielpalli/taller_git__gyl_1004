@@ -23,7 +23,7 @@ public class MenuCeo implements MenuStrategy {
         System.out.println("2. Ver todas las sucursales");
         System.out.println("3. Ver balance general");
         System.out.println("4. Ver usuarios registrados");
-        System.out.println("5. Agregar usuario a sucursal");
+        System.out.println("5. Agregar admin a sucursal");
         System.out.println("6. Ver usuarios de sucursal");
         System.out.println("0. Salir");
     }
@@ -50,7 +50,7 @@ public class MenuCeo implements MenuStrategy {
                 nombreSucursal = sc.nextLine();
                 System.out.println("Correo del usuario:");
                 String correo = sc.nextLine();
-                new AgregarPersonaASucursalCommand(banco, personasRegistradas, nombreSucursal, correo).execute();
+                new AsignarAdminASucursalCommand(banco, personasRegistradas, nombreSucursal, correo).execute();
                 break;
             case "6":
                 System.out.println("Nombre de la sucursal: ");

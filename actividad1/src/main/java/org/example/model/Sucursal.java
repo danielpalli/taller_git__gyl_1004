@@ -1,5 +1,7 @@
 package org.example.model;
 
+import org.example.enums.Rol;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,5 +54,14 @@ public class Sucursal {
             }
         }
         return total;
+    }
+
+    public boolean tieneAdmin() {
+        for (Persona persona : personas) {
+            if (persona.getRol() == Rol.ADMIN) {
+                return true;
+            }
+        }
+        return false;
     }
 }

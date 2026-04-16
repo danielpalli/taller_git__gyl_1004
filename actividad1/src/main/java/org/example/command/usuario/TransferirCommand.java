@@ -34,6 +34,6 @@ public class TransferirCommand implements Command {
             return;
         }
 
-        this.origen.getCuenta().enviarDinero(destino.getCuenta(), monto);
+        this.origen.getCuenta().enviarDinero(destino.getCuenta(), this.monto);
     }
 }

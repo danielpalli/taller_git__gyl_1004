@@ -2,14 +2,13 @@ package org.example.command.administrativo;
 
 import org.example.command.Command;
 import org.example.model.Persona;
-import org.example.model.Sucursal;
 
 import java.util.List;
 
-public class VerUsuariosRegistradosCommand implements Command {
+public class VerPersonasRegistradasCommand implements Command {
     private List<Persona> personasRegistradas;
 
-    public VerUsuariosRegistradosCommand(List<Persona> personasRegistradas) {
+    public VerPersonasRegistradasCommand(List<Persona> personasRegistradas) {
         this.personasRegistradas = personasRegistradas;
     }
 
@@ -19,7 +18,7 @@ public class VerUsuariosRegistradosCommand implements Command {
             System.out.println("No hay usuarios registrados.");
             return;
         }
-        System.out.println("Usuarios: ");
+        System.out.println("Personas registradas: ");
         for (Persona persona: this.personasRegistradas){
             System.out.println("    " + persona.getNombre());
         }

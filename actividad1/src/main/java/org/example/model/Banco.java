@@ -27,8 +27,13 @@ public class Banco {
         this.nombre = nombre;
     }
 
-    public void agregarSucursal(Sucursal sucursal) {
+    public boolean agregarSucursal(Sucursal sucursal) {
+        if (buscarSucursal(sucursal.getNombre()) != null){
+            return false;
+        }
+
         this.sucursales.add(sucursal);
+        return true;
     }
 
     public Sucursal buscarSucursal(String nombre) {
@@ -40,6 +45,9 @@ public class Banco {
         return null;
     }
 
+    public String getNombre(){
+        return this.nombre;
+    }
     public List<Sucursal> getSucursales() {
         return this.sucursales;
     }

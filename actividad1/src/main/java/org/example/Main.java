@@ -8,6 +8,9 @@ import org.example.command.usuario.RetirarCommand;
 import org.example.command.usuario.TransferirCommand;
 import org.example.enums.Rol;
 import org.example.enums.TipoCuenta;
+import org.example.menu.MenuCeo;
+import org.example.menu.MenuFactory;
+import org.example.menu.MenuStrategy;
 import org.example.model.*;
 
 import java.util.ArrayList;
@@ -41,12 +44,25 @@ public class Main {
         if (personaLogueada == null) return;
 
         System.out.println("Conectado: " + personaLogueada.getNombre());
+//        if (personaLogueada.getRol() == Rol.CEO) {
+//
+//            menuCeo(sc, banco, personasRegistradas);
+//        } else {
+//            menuUsuario(sc, personaLogueada, banco);
+//        }
 
-        if (personaLogueada.getRol() == Rol.CEO) {
-            menuCeo(sc, banco, personasRegistradas);
-        } else {
-            menuUsuario(sc, personaLogueada, banco);
+        MenuStrategy menu = MenuFactory.crearMenu(personaLogueada, banco, personasRegistradas);
+        String opcion;
+
+        if(menu == null){
+            return;
         }
+
+        do{
+            menu.mostrar();
+            opcion = sc.nextLine();
+            menu.manejarOpcion(opcion, sc);
+        } while (!opcion.equals("0"));
 
         sc.close();
     }
@@ -113,118 +129,4 @@ public class Main {
         System.out.println("Usuario registrado");
     }
 
-    private static void menuCeo(Scanner sc, Banco banco, List<Persona> personasRegistradas) {
-        String opcion;
-        Command mostrarSucursales = new MostrarSucursalesCommand(banco);
-        Command mostrarBalance = new MostrarBalanceCommand(banco);
-
-        do {
-            System.out.println("1. Crear nueva sucursal");
-            System.out.println("2. Ver todas las sucursales");
-            System.out.println("3. Ver balance general");
-            System.out.println("4. Ver usuarios registrados");
-            System.out.println("5. Agregar usuario a sucursal");
-            System.out.println("6. Ver usuarios de susucarl");
-
-            System.out.println("0. Salir");
-            opcion = sc.nextLine();
-
-            switch (opcion) {
-                case "1":
-                    System.out.print("Nombre de la sucursal: ");
-                    String nombreSucursal = sc.nextLine();
-                    banco.agregarSucursal(new Sucursal(nombreSucursal));
-                    System.out.println("Sucursal '" + nombreSucursal + "' creada.");
-                    break;
-                case "2":
-                    mostrarSucursales.execute();
-                    break;
-                case "3":
-                    mostrarBalance.execute();
-                    break;
-                case "4":
-                    for(Persona persona: personasRegistradas) {
-                        System.out.println(persona.getNombre());
-                    }
-                case "5":
-                    System.out.println("Nombre de la sucursal: ");
-                    Sucursal sucursal = banco.buscarSucursal(sc.nextLine());
-                    if (sucursal == null){
-                        // TODO poner mensaje
-                        break;
-                    }
-                    System.out.println("Correo del usuario a agregar:");
-                    String correo = sc.nextLine();
-                    Persona encontrado = null;
-                    for (Persona persona: personasRegistradas) {
-                        if(persona.getCorreo().equalsIgnoreCase(correo)){
-                            encontrado = persona;
-                            break;
-                        }
-                    }
-                    if (encontrado == null ) {
-                    } else {
-                        sucursal.agregarPersona(encontrado);
-                        System.out.println("Agregado");
-                        break;
-                    }
-                case "6":
-                    System.out.println("Nombre de la sucursal: ");
-                    Sucursal sucursalVer = banco.buscarSucursal(sc.nextLine());
-
-                    if (sucursalVer == null){
-                    } else if(sucursalVer.getPersonas().isEmpty()) {
-                    } else {
-                        for (Persona persona: sucursalVer.getPersonas()) {
-                            System.out.println(persona.getNombre());
-                        }
-                    }
-            }
-        } while (!opcion.equals("0"));
-    }
-
-    private static void menuUsuario(Scanner sc, Persona persona, Banco banco) {
-        String opcion;
-        do {
-            System.out.println("1. Depositar");
-            System.out.println("2. Retirar");
-            System.out.println("3. Transferir");
-            System.out.println("4. Saldo");
-            System.out.println("0. Salir");
-            opcion = sc.nextLine();
-
-            switch (opcion) {
-                case "1":
-                    System.out.print("Monto a depositar: ");
-                    int depositar = Integer.parseInt(sc.nextLine());
-                    new DepositarCommand(persona, depositar).execute();
-                    break;
-                case "2":
-                    System.out.print("Monto a retirar: ");
-                    int retirar = Integer.parseInt(sc.nextLine());
-                    new RetirarCommand(persona, retirar).execute();
-                    break;
-                case "3":
-                    System.out.print("Sucursal destino: ");
-                    Sucursal sucursal = banco.buscarSucursal(sc.nextLine());
-                    if (sucursal != null) {
-                        System.out.print("Nombre del destinatario: ");
-                        Persona destino = sucursal.buscarPersona(sc.nextLine());
-                        if (destino != null) {
-                            System.out.print("Monto a transferir: ");
-                            int monto = Integer.parseInt(sc.nextLine());
-                            new TransferirCommand(persona, destino, monto).execute();
-                        } else System.out.println("Destinatario no encontrado.");
-                    } else System.out.println("Sucursal no encontrada.");
-                    break;
-                case "4":
-                    if(persona.getCuenta() != null) {
-                        System.out.println("Tu saldo actual es: " + persona.getCuenta().getSaldo());
-                    } else {
-                        System.out.println("No tienes una cuenta activa.");
-                    }
-                    break;
-            }
-        } while (!opcion.equals("0"));
-    }
 }
